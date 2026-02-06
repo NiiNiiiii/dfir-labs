@@ -1,0 +1,5 @@
+﻿Event
+| where Computer == "win-ws1"
+| where EventLog == "Microsoft-Windows-Sysmon/Operational"
+| sort by TimeGenerated desc
+| take 20

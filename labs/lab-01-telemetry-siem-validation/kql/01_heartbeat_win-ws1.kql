@@ -1,0 +1,4 @@
+﻿Heartbeat
+| where Computer == "win-ws1"
+| sort by TimeGenerated desc
+| take 20

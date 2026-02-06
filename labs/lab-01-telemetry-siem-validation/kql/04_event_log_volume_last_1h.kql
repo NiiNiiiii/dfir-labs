@@ -1,0 +1,5 @@
+﻿Event
+| where Computer == "win-ws1"
+| where TimeGenerated > ago(1h)
+| summarize Count=count() by EventLog
+| sort by Count desc

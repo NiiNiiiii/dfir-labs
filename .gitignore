@@ -1,0 +1,37 @@
+﻿# Evidence / casework (DO NOT PUBLISH)
+Evidence/
+C:\Evidence/
+**/Evidence/**
+**/Cases/**
+
+# Tools / binaries
+Tools/
+C:\Tools/
+**/Tools/**
+**/*.exe
+**/*.dll
+**/*.zip
+**/*.7z
+
+# Logs, exports, dumps (keep local)
+**/*.evtx
+**/*.etl
+**/*.pcap
+**/*.pcapng
+**/*.csv
+**/*.jsonl
+**/*.log
+
+# Secrets / creds
+**/*.rdp
+**/*.pem
+**/*.pfx
+**/*.p12
+**/*.kdbx
+**/*secret*
+**/*password*
+**/*token*
+
+# OS junk
+Thumbs.db
+.DS_Store

@@ -1,0 +1,7 @@
+﻿Event
+| where Computer == "win-ws1"
+| where EventLog == "Security"
+| where EventID in (4624,4625)
+| project TimeGenerated, EventID, RenderedDescription
+| sort by TimeGenerated desc
+| take 50
