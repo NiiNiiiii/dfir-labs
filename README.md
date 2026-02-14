@@ -2,6 +2,13 @@ Hands-on DFIR labs focused on enterprise telemetry, hunting, and incident recons
 
 **This proves:** I can set up end-to-end logging pipeline (Sysmon + Security → AMA/DCR → Log Analytics/Sentinel) and use it to validate telemetry, hunt, and reconstruct incidents.
 
+## Skills demonstrated
+- Microsoft Sentinel (Log Analytics) investigation workflow
+- Azure Monitor Agent (AMA) + Data Collection Rules (DCR) telemetry onboarding
+- Windows telemetry: Sysmon + Security Event Logs (auth activity)
+- KQL authoring + validation queries (tables + charts)
+- DFIR discipline: evidence kept local; repo contains reproducible queries + proof screenshots + notes
+
 ## Labs
 | Lab | Focus | Outputs |
 |---|---|---|
