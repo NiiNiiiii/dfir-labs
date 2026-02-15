@@ -1,5 +1,7 @@
 # LAB 02 — Multi-host Incident Reconstruction (Microsoft Sentinel + Sysmon)
 
+**Quick links:** [Timeline KQL](kql/lab02_timeline.kql) · [Analytic rule export](detections/LAB02_encoded_powershell_rule.arm.json) · [Automation export](automation/AB02_soar_lite_automation_rule.arm.json) · [Workbook template](workbooks/LAB02_timeline_dashboard.galleryTemplate.json) · [Executive summary](executive-summary.md)
+
 ## What this proves
 
 - Multi-host endpoint telemetry ingestion into Sentinel (`win-ws1`, `win-ws2`) validated via `Heartbeat` and Windows Event Logs.
@@ -30,13 +32,14 @@ Queries parse it using `parse_xml()` and build a bag to extract fields like `Ima
 
 ## Artifacts (this repo)
 
-- KQL queries: `kql/`
-- Analytic rule export (ARM): `detections/LAB02_encoded_powershell_rule.arm.json`
-- Automation rule export (ARM): `automation/AB02_soar_lite_automation_rule.arm.json`
-- Workbook template: `workbooks/LAB02_timeline_dashboard.galleryTemplate.json`
-- IOC list (lab-scoped): `ioc/ioc_list.csv`
-- MITRE mapping: `mitre/mitre_mapping.md`
-- Redactions note: `notes/redactions.md`
+- Executive summary: [executive-summary.md](executive-summary.md)
+- KQL queries: [kql/](kql/)
+- Analytic rule export (ARM): [detections/LAB02_encoded_powershell_rule.arm.json](detections/LAB02_encoded_powershell_rule.arm.json)
+- Automation rule export (ARM): [automation/AB02_soar_lite_automation_rule.arm.json](automation/AB02_soar_lite_automation_rule.arm.json)
+- Workbook template: [workbooks/LAB02_timeline_dashboard.galleryTemplate.json](workbooks/LAB02_timeline_dashboard.galleryTemplate.json)
+- IOC list (lab-scoped): [ioc/ioc_list.csv](ioc/ioc_list.csv)
+- MITRE mapping: [mitre/mitre_mapping.md](mitre/mitre_mapping.md)
+- Redactions note: [notes/redactions.md](notes/redactions.md)
 
 ---
 
@@ -151,7 +154,7 @@ Behavior:
 - Trigger: incident created from the LAB02 analytic rule
 - Actions: tag `lab02`, set severity `High`
 
-> Publish-safe note: owner assignment was removed to avoid leaking user identifiers. See `notes/redactions.md`.
+> Publish-safe note: owner assignment was removed to avoid leaking user identifiers. See [notes/redactions.md](notes/redactions.md).
 
 ---
 
