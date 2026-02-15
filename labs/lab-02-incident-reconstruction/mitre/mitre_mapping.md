@@ -9,3 +9,4 @@
 - Scheduled analytic rule: `LAB02 - Encoded PowerShell Execution`
 - Query frequency: 5m, lookback: 1h
 - Entities: Host (Computer), Account (User)
+- Analytic rule export (ARM): [LAB02_encoded_powershell_rule.arm.json](../detections/LAB02_encoded_powershell_rule.arm.json)
