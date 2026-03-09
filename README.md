@@ -1,31 +1,36 @@
-Hands-on DFIR labs focused on enterprise telemetry, hunting, incident reconstruction, and endpoint casework in Azure (Microsoft Sentinel).
+Hands-on DFIR and cloud SecOps labs covering enterprise telemetry, threat hunting, incident reconstruction, endpoint casework, memory triage, and AWS detection/response.
 
-## This proves
-- I can build an end-to-end Windows telemetry pipeline (Sysmon + Security → AMA/DCR → Log Analytics/Sentinel).
-- I can move from findings → hunts → scheduled analytic rules → automation → workbooks (rules-as-code where possible).
-- I can perform endpoint forensics casework (MFT/EVTX triage, hashing, chain-of-custody) without publishing raw evidence.
+## What this proves
+- I can build and validate end-to-end telemetry pipelines across Windows, Azure, and AWS.
+- I can move from findings to hunts, detections, automation, and analyst-facing investigation views.
+- I can perform publish-safe forensic casework: artifact triage, hashing, chain-of-custody, IOC packaging, and memory-triage pivots without committing raw evidence.
+- I can ship operational artifacts as code: KQL, ARM/JSON exports, Athena SQL, Lambda response logic, and Terraform.
 
 ## Skills demonstrated
 - Microsoft Sentinel (Log Analytics) investigation workflow: incidents, entities, timelines
 - Azure Monitor Agent (AMA) + Data Collection Rules (DCR) telemetry onboarding
-- Windows telemetry: Sysmon + Security Event Logs (auth + admin + persistence signals)
-- KQL authoring + validation (tables, joins, charts)
-- Detection engineering: scheduled analytic rules + tuning notes + MITRE mapping
-- SOAR-lite automation rules (tagging, severity, triage actions)
-- Endpoint forensics: EVTX export, MFT parsing, artifact correlation, publish-safe IOC packaging (hashes/paths only)
-- DFIR discipline: evidence kept local; repo contains reproducible queries + proof screenshots + templates + hash manifests
+- Windows telemetry: Sysmon + Security Event Logs (authentication, admin, and persistence signals)
+- KQL authoring, validation, joins, decoding, and charting
+- Detection engineering: scheduled analytic rules, tuning notes, and MITRE mapping
+- SOAR-lite automation: incident tagging, severity updates, and triage actions
+- Endpoint forensics: KAPE, EVTX export, MFT parsing, artifact correlation, and publish-safe IOC packaging
+- Memory triage under cloud constraints, including process-memory validation and strings-based proof
+- AWS detection and response with GuardDuty, Security Hub, EventBridge, SNS, Lambda, Athena, S3, and Terraform
+- DFIR discipline: reproducible artifacts in GitHub, raw evidence retained outside the repo
 
 ## Labs
-| Lab | Focus | Outputs | Status |
-|---|---|---|---|
-| [Lab 01 — Telemetry + SIEM Validation (Sentinel)](labs/01-telemetry-siem-validation/) | Confirm ingestion + baseline telemetry | KQL queries + screenshots + config proof | ✅ Done |
-| [Lab 02 — Incident Reconstruction (Sentinel)](labs/02-incident-reconstruction/) | Multi-host timeline + detection + automation | KQL + incident proof + analytic rule + automation rule + workbook | ✅ Done |
-| [Lab 03 — Controls-to-Telemetry Audit (Sentinel)](labs/03-controls-to-telemetry-audit/) | Prove what security controls are observable (and where blind spots exist) | Validation KQL pack + coverage matrix + analytic rule + automation rule + workbook | ✅ Done |
-| [Lab 04 — Endpoint Forensics Casework (MFT/EVTX)](labs/04-endpoint-forensics-casework/) | Disk + log artifact triage and correlation, then uplift into detection | Evidence manifest (SHA256) + chain-of-custody + timeline + IOC pack + hunts + analytic rule + automation rule + workbook | ✅ Done |
-| Lab 05 — Memory Forensics + Cloud SecOps | Volatility 3 triage + bridge findings into Sentinel | Volatility output + hunts + analytic rule + workbook + automation | 🔄 In Progress |
-| Lab 06 — Capstone Report | Tie Labs 02/04/05 into one consulting-grade deliverable | Final report + exec summary + technical appendix + NIST CSF mapping | 📋 Planned |
-| Lab 07 — AWS GuardDuty Detection + Response | AWS-native detection, centralized findings, automated response | GuardDuty + Security Hub + EventBridge + CloudTrail + Terraform IaC | 📋 Planned |
-| Lab 08 — AWS IAM + S3 Misconfiguration | Posture detection + remediation + compliance validation | Access Analyzer + Config rules + Security Hub + Terraform IaC | 📋 Planned |
+| Lab | Focus | Status |
+|---|---|---|
+| [01 — Telemetry + SIEM Validation](labs/01-telemetry-siem-validation/) | Confirm ingestion and baseline Windows telemetry in Sentinel | ✅ Done |
+| [02 — Multi-Host Incident Reconstruction](labs/02-incident-reconstruction/) | Reconstruct a cross-host intrusion timeline and operationalize detection | ✅ Done |
+| [03 — Controls-to-Telemetry Audit](labs/03-controls-to-telemetry-audit/) | Prove which security controls are observable and where blind spots remain | ✅ Done |
+| [04 — Endpoint Forensics Casework](labs/04-endpoint-forensics-casework/) | Triage disk and log artifacts, build a timeline, and uplift findings into detection content | ✅ Done |
+| [05 — Windows Memory Forensics + Cloud SecOps Loop](labs/05-memory-forensics-cloud-secops-loop/) | Handle memory-triage constraints in Azure and complete the Sentinel detection-to-workbook loop | ✅ Done |
+| 06 — Capstone Report | Package Labs 02, 04, and 05 into a consulting-style deliverable | 📋 Planned |
+| [07 — AWS GuardDuty Detection + Response](labs/07-aws-guardduty-detection-response/) | Build AWS-native alerting, findings enrichment, and response workflow | ✅ Done |
+| 08 — AWS IAM + S3 Misconfiguration Response | Detect and remediate unintended access with attribution and compliance validation | 📋 Planned |
+
+Each completed lab includes a `README.md`, proof screenshots, and lab-specific artifacts such as KQL, detections, automation exports, workbooks, IOC packs, Athena queries, Lambda code, or Terraform where applicable.
 
 _Last updated: 2026-03-09_
 
@@ -33,17 +38,18 @@ _Last updated: 2026-03-09_
 - Microsoft Sentinel + Log Analytics Workspace
 - Azure Monitor Agent (AMA) + Data Collection Rules (DCR)
 - Sysmon + Windows Security Event Logs
-- Endpoint triage tooling (inside lab VMs): KAPE, Zimmerman's MFTECmd/EvtxECmd, Timeline Explorer
-- Volatility 3 (Lab 05)
-- Planned (Labs 07–08): AWS CLI, Terraform, Amazon GuardDuty, AWS Security Hub, Amazon EventBridge, AWS CloudTrail, IAM Access Analyzer, AWS Config
+- Endpoint triage tooling: KAPE, MFTECmd, EvtxECmd, Timeline Explorer
+- Volatility 3 and process-memory triage workflow
+- AWS CLI, Terraform, Amazon GuardDuty, AWS Security Hub, Amazon EventBridge, Amazon SNS, AWS Lambda, Amazon Athena, Amazon S3, AWS CloudTrail, IAM Access Analyzer, AWS Config
 
 ## How to use this repo
-- Open a lab folder and follow its `README.md`.
-- Run KQL in each lab’s `/kql` folder.
-- Compare results to `/screenshots`.
-- Review `/detections`, `/automation`, and `/workbooks` for deployable artifacts (templates/exports).
+- Start at any lab folder and read its `README.md` first.
+- Use the screenshots to verify expected results and analyst-facing outputs.
+- Review the artifact folders for reusable content such as queries, detections, automation, workbooks, Terraform, notes, and IOC packs.
+- Treat each lab as a scoped case study with its own evidence, validation, and documentation trail.
 
 ## Notes / Safety
-- Costs: shut down VMs when idle; avoid open inbound management ports.
-- Access: prefer Bastion; avoid public Internet RDP.
-- Evidence: raw artifacts (EVTX/MFT/dumps/binaries) are never published—only reproducible queries, exports/templates, proof screenshots, and hash manifests.
+- Raw evidence is never published. No EVTX, MFT, memory dumps, binaries, or secrets are committed.
+- The repo contains reproducible queries, exports, templates, screenshots, notes, and hash-based manifests only.
+- Cloud cost and cleanup discipline matter. Labs that create billable resources are documented with teardown and cleanup notes.
+- Access is kept narrow where possible. Avoid exposing management services directly to the public Internet.
