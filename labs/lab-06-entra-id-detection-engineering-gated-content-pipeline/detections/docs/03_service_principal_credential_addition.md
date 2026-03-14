@@ -57,6 +57,6 @@ This rule is intentionally focused on a dedicated lab service principal so the d
 
 ## Evidence
 
-- `06_sp_credential_addition_hunt.png`
-- `09_rule_sp_credential_addition.png`
-- `10_identity_incident_triggered.png`
+- [Service principal credential-addition hunt result](../../screenshots/07_sp_credential_addition_hunt.png)
+- [Scheduled analytic configuration](../../screenshots/10_rule_sp_credential_addition.png)
+- [Incident triggered from the rule](../../screenshots/11_identity_incident_triggered.png)
