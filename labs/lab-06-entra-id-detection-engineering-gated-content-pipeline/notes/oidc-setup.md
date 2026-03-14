@@ -1,4 +1,4 @@
-# Lab 06 OIDC setup record
+# OIDC setup record
 
 ## Purpose
 
@@ -28,15 +28,15 @@ This note records the GitHub OIDC trust path used for the Lab 06 test deployment
 
 ## Proof screenshots
 
-- `screenshots/14_azure_portal_federated_credential.png`
-- `screenshots/15_github_environment.png`
-- `screenshots/16_environment_approval_gate.png`
-- `screenshots/17_oidc_rbac_assignment.png`
-- `screenshots/18_oidc_smoke_test_login_success.png`
-- `screenshots/19_oidc_active_account_confirmed.png`
-- `screenshots/20_oidc_smoke_test_rg_confirmed.png`
-- `screenshots/23_deploy_approval_gate.png`
-- `screenshots/25_test_workspace_deploy_success.png`
+- [Azure portal federated credential](../screenshots/14_azure_portal_federated_credential.png)
+- [GitHub environment configuration](../screenshots/15_github_environment.png)
+- [Environment approval gate](../screenshots/16_environment_approval_gate.png)
+- [OIDC RBAC assignment](../screenshots/17_oidc_rbac_assignment.png)
+- [OIDC smoke-test login success](../screenshots/18_oidc_smoke_test_login_success.png)
+- [OIDC active account confirmed](../screenshots/19_oidc_active_account_confirmed.png)
+- [OIDC smoke-test resource group confirmed](../screenshots/20_oidc_smoke_test_rg_confirmed.png)
+- [Deploy approval gate](../screenshots/23_deploy_approval_gate.png)
+- [Test workspace deploy success](../screenshots/25_test_workspace_deploy_success.png)
 
 ## Publish-safety note
 
