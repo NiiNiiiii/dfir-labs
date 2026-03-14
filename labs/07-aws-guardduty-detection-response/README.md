@@ -1,4 +1,4 @@
-# Lab 07 — AWS GuardDuty Detection + Response
+# AWS GuardDuty Detection + Response
 
 ![Architecture diagram](screenshots/architecture_diagram.png)
 
