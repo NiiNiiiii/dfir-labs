@@ -1,4 +1,4 @@
-# LAB06 - Directory role assignment change
+# Directory role assignment change
 
 ## Purpose
 
