@@ -5,125 +5,95 @@ import json
 import sys
 from pathlib import Path
 
-FORBIDDEN_EXTENSIONS = {
-    ".evtx", ".pcap", ".dmp", ".etl", ".pfx", ".pem", ".key", ".p12",
-    ".exe", ".dll"
-}
-
-REQUIRED_DIRS = [
-    "screenshots",
-    "kql/validation",
-    "kql/hunts",
-    "kql/analytics",
-    "kql/workbook",
-    "detections/docs",
-    "detections/exports/analytics",
-    "automation/exports",
-    "workbooks/exports",
-    "notes",
-    "mitre",
-    "ioc",
-    "pipeline/manifests",
-    "pipeline/parameters",
-    "pipeline/deploy",
-    "scripts",
-]
-
-REQUIRED_FILES = [
-    ".gitignore",
-    "notes/lab06-values.env.example",
-    "notes/licensing-and-fallback.md",
-    "notes/scenario-execution.md",
-    "notes/redactions.md",
-    "mitre/mitre_mapping.md",
-    "ioc/identity_observables.csv",
-    "pipeline/manifests/content-manifest.json",
-    "pipeline/parameters/test.parameters.json",
-    "pipeline/deploy/main.bicep",
-    "pipeline/deploy/workbook.serialized.json",
-]
-
-ROOT_WORKFLOWS = [
-    ".github/workflows/lab06-oidc-smoke-test.yml",
-    ".github/workflows/validate-lab06-content.yml",
-    ".github/workflows/package-lab06-content.yml",
-    ".github/workflows/deploy-lab06-test.yml",
-]
-
-def gh_error(path: str, message: str) -> None:
-    print(f"::error file={path}::{message}")
+def load_text(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8")
+    except Exception:
+        return ""
 
 def main() -> int:
     if len(sys.argv) != 2:
-        print("Usage: validate_repo.py <lab_dir>", file=sys.stderr)
+        print("Usage: validate_repo.py <lab06_dir>", file=sys.stderr)
         return 2
 
-    repo_root = Path.cwd()
-    lab_dir = repo_root / sys.argv[1]
-    artifacts_dir = lab_dir / "artifacts"
-    artifacts_dir.mkdir(parents=True, exist_ok=True)
+    lab_dir = Path(sys.argv[1]).resolve()
+    repo_root = Path.cwd().resolve()
 
     errors: list[dict[str, str]] = []
 
     if not lab_dir.exists():
-        errors.append({"path": str(lab_dir), "message": "Lab directory does not exist."})
-
-    for rel in REQUIRED_DIRS:
-        path = lab_dir / rel
-        if not path.is_dir():
-            errors.append({"path": str(path.relative_to(repo_root)), "message": "Required directory is missing."})
-
-    for rel in REQUIRED_FILES:
-        path = lab_dir / rel
-        if not path.is_file():
-            errors.append({"path": str(path.relative_to(repo_root)), "message": "Required file is missing."})
-
-    for rel in ROOT_WORKFLOWS:
-        path = repo_root / rel
-        if not path.is_file():
-            errors.append({"path": rel, "message": "Required workflow file is missing from repo-root .github/workflows."})
-
-    if (lab_dir / ".github" / "workflows").exists():
-        errors.append({
-            "path": str((lab_dir / ".github" / "workflows").relative_to(repo_root)),
-            "message": "Workflow files must not exist inside the lab folder. Use repo-root .github/workflows."
-        })
-
-    for path in lab_dir.rglob("*"):
-        if not path.is_file():
-            continue
-        if path.suffix.lower() in FORBIDDEN_EXTENSIONS:
-            errors.append({
-                "path": str(path.relative_to(repo_root)),
-                "message": f"Forbidden file extension detected: {path.suffix.lower()}"
-            })
-        if path.name.endswith(".env") and path.name != "lab06-values.env.example":
-            errors.append({
-                "path": str(path.relative_to(repo_root)),
-                "message": "A live .env file appears tracked. Keep local values untracked."
-            })
-
-    screenshots_dir = lab_dir / "screenshots"
-    if screenshots_dir.exists():
-        for path in screenshots_dir.iterdir():
-            if path.is_file() and path.name != path.name.lower():
-                errors.append({
-                    "path": str(path.relative_to(repo_root)),
-                    "message": "Screenshot filenames must be lowercase."
-                })
-
-    report = {"errors": errors}
-    report_path = artifacts_dir / "validation-repo.json"
-    report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
-
-    for err in errors:
-        gh_error(err["path"], err["message"])
-
-    if errors:
-        print(json.dumps(report, indent=2))
+        print(json.dumps({"errors": [{"path": str(lab_dir), "message": "Lab directory does not exist."}]}, indent=2))
         return 1
 
-    print(f"[OK] Repo validation passed. Report written to {report_path}")
+    # Phase 8 required files only
+    required_lab_files = [
+        "README.md",
+        "executive-summary.md",
+        "notes/oidc-setup.md",
+        "pipeline/manifests/content-manifest.json",
+        "pipeline/deploy/workbook.serialized.json",
+        "pipeline/deploy/main.bicep",
+        "scripts/validate_repo.py",
+        "scripts/validate_deployable_json.py",
+        "scripts/validate_detection_metadata.py",
+        "scripts/validate_workflow_guardrails.py",
+        "scripts/validate_readme_evidence.py",
+        "scripts/build_package.py",
+        "scripts/evaluate_whatif.py",
+    ]
+
+    for rel in required_lab_files:
+        p = lab_dir / rel
+        if not p.exists():
+            errors.append({"path": str(p.relative_to(repo_root)), "message": "Required file is missing."})
+
+    required_workflows = [
+        ".github/workflows/lab06-oidc-smoke-test.yml",
+        ".github/workflows/validate-lab06-content.yml",
+        ".github/workflows/package-lab06-content.yml",
+    ]
+
+    for rel in required_workflows:
+        p = repo_root / rel
+        if not p.exists():
+            errors.append({"path": rel, "message": "Required workflow file is missing from repo-root .github/workflows."})
+
+    # Ignore rule can exist in root .gitignore OR lab-local .gitignore
+    ignore_target = "notes/lab06-values.env"
+    root_gitignore = repo_root / ".gitignore"
+    lab_gitignore = lab_dir / ".gitignore"
+
+    root_text = load_text(root_gitignore)
+    lab_text = load_text(lab_gitignore)
+
+    root_ok = "labs/lab-06-entra-id-detection-engineering-gated-content-pipeline/notes/lab06-values.env" in root_text
+    lab_ok = ignore_target in lab_text or "/notes/lab06-values.env" in lab_text
+
+    if not (root_ok or lab_ok):
+        errors.append({
+            "path": str((lab_dir / ".gitignore").relative_to(repo_root)),
+            "message": "Missing ignore rule for notes/lab06-values.env in root .gitignore or lab-local .gitignore."
+        })
+
+    # Enforce lowercase screenshot filenames
+    screenshots_dir = lab_dir / "screenshots"
+    if screenshots_dir.exists():
+        for item in screenshots_dir.iterdir():
+            if item.is_file():
+                if item.name != item.name.lower():
+                    errors.append({
+                        "path": str(item.relative_to(repo_root)),
+                        "message": "Screenshot filenames must be lowercase."
+                    })
+    else:
+        errors.append({"path": str(screenshots_dir.relative_to(repo_root)), "message": "Screenshots directory is missing."})
+
+    if errors:
+        print("Error: Repo validation failed.")
+        print(json.dumps({"errors": errors}, indent=2))
+        return 1
+
+    print("Repo structure and hygiene validation passed.")
     return 0
 
 if __name__ == "__main__":

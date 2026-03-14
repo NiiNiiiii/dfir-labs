@@ -1,6 +1,6 @@
 # Lab 06 — Microsoft Entra ID Detection Engineering + Gated Sentinel Content-as-Code Pipeline
 
-![Lab 06 workbook hero](screenshots/11_workbook_identity_dashboard.png)
+![Lab 06 workbook hero](screenshots/13_workbook_identity_dashboard.png)
 
 ## What this lab proves
 
@@ -174,7 +174,7 @@ It includes:
 - `workbooks/LAB06_identity_dashboard.json`
 
 **Proof**
-- `screenshots/11_workbook_identity_dashboard.png`
+- `screenshots/13_workbook_identity_dashboard.png`
 
 ## MITRE mapping
 
@@ -254,7 +254,7 @@ Detailed execution notes live in:
 - `screenshots/08_rule_role_assignment_change.png`
 - `screenshots/09_rule_sp_credential_addition.png`
 - `screenshots/10_identity_incident_triggered.png`
-- `screenshots/11_workbook_identity_dashboard.png`
+- `screenshots/13_workbook_identity_dashboard.png`
 - `screenshots/12_automation_rule.png`
 
 ### KQL

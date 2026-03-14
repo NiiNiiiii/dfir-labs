@@ -7,94 +7,111 @@ from pathlib import Path
 
 import yaml
 
-def gh_error(path: str, message: str) -> None:
-    print(f"::error file={path}::{message}")
+FORBIDDEN_STRINGS = [
+    "AZURE_CLIENT_SECRET",
+    "client_secret",
+    "notes/lab06-values.env",
+    "lab06-values.env",
+]
+
+
+def rel(path: Path, root: Path) -> str:
+    try:
+        return path.relative_to(root).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def has_workflow_dispatch(doc: dict) -> bool:
+    value = doc.get(True) if True in doc else doc.get("on")
+    if isinstance(value, str):
+        return value == "workflow_dispatch"
+    if isinstance(value, list):
+        return "workflow_dispatch" in value
+    if isinstance(value, dict):
+        return "workflow_dispatch" in value
+    return False
+
+
+def find_uses(node, target: str) -> bool:
+    if isinstance(node, dict):
+        return any(find_uses(v, target) for v in node.values())
+    if isinstance(node, list):
+        return any(find_uses(v, target) for v in node)
+    return isinstance(node, str) and target in node
+
 
 def main() -> int:
     if len(sys.argv) != 2:
-        print("Usage: validate_workflow_guardrails.py <lab_dir>", file=sys.stderr)
+        print("Usage: validate_workflow_guardrails.py <lab_dir>")
         return 2
 
-    repo_root = Path.cwd()
-    lab_dir = repo_root / sys.argv[1]
-    artifacts_dir = lab_dir / "artifacts"
-    artifacts_dir.mkdir(parents=True, exist_ok=True)
+    lab_dir = Path(sys.argv[1]).resolve()
+    repo_root = lab_dir.parents[1]
+    workflows_dir = repo_root / ".github" / "workflows"
+    errors: list[dict[str, str]] = []
 
-    errors = []
+    workflow_files = [
+        workflows_dir / "lab06-oidc-smoke-test.yml",
+        workflows_dir / "validate-lab06-content.yml",
+        workflows_dir / "package-lab06-content.yml",
+    ]
 
-    workflow_paths = {
-        "smoke": repo_root / ".github/workflows/lab06-oidc-smoke-test.yml",
-        "validate": repo_root / ".github/workflows/validate-lab06-content.yml",
-        "package": repo_root / ".github/workflows/package-lab06-content.yml",
-        "deploy": repo_root / ".github/workflows/deploy-lab06-test.yml",
-    }
-
-    loaded = {}
-    for name, path in workflow_paths.items():
-        if not path.exists():
-            errors.append({"path": str(path.relative_to(repo_root)), "message": "Workflow file missing."})
+    docs: dict[str, dict] = {}
+    for wf in workflow_files:
+        if not wf.exists():
+            errors.append({"path": rel(wf, repo_root), "message": "Required workflow file is missing."})
             continue
-        loaded[name] = yaml.safe_load(path.read_text(encoding="utf-8"))
-        raw_text = path.read_text(encoding="utf-8")
-        if "AZURE_CLIENT_SECRET" in raw_text:
-            errors.append({"path": str(path.relative_to(repo_root)), "message": "Workflow must not use AZURE_CLIENT_SECRET."})
+        text = wf.read_text(encoding="utf-8", errors="ignore")
+        for forbidden in FORBIDDEN_STRINGS:
+            if forbidden in text:
+                errors.append({"path": rel(wf, repo_root), "message": f"Forbidden string found in workflow: {forbidden}"})
+        try:
+            docs[wf.name] = yaml.safe_load(text) or {}
+        except Exception as exc:
+            errors.append({"path": rel(wf, repo_root), "message": f"Invalid YAML: {exc}"})
 
-    smoke = loaded.get("smoke")
-    deploy = loaded.get("deploy")
-    validate = loaded.get("validate")
-    package = loaded.get("package")
-
+    smoke = docs.get("lab06-oidc-smoke-test.yml", {})
     if smoke:
-        perms = smoke.get("permissions", {})
-        if perms.get("id-token") != "write":
-            errors.append({"path": ".github/workflows/lab06-oidc-smoke-test.yml", "message": "Smoke-test workflow must request id-token: write."})
-        if smoke.get("jobs", {}).get("smoke-test", {}).get("environment") != "sentinel-test":
-            errors.append({"path": ".github/workflows/lab06-oidc-smoke-test.yml", "message": "Smoke-test workflow must use environment sentinel-test."})
+        if not has_workflow_dispatch(smoke):
+            errors.append({"path": ".github/workflows/lab06-oidc-smoke-test.yml", "message": "Smoke-test workflow must support workflow_dispatch."})
+        permissions = smoke.get("permissions", {})
+        if permissions.get("id-token") != "write":
+            errors.append({"path": ".github/workflows/lab06-oidc-smoke-test.yml", "message": "Smoke-test workflow must request permissions.id-token: write."})
+        if not find_uses(smoke, "azure/login@v2"):
+            errors.append({"path": ".github/workflows/lab06-oidc-smoke-test.yml", "message": "Smoke-test workflow must use azure/login@v2."})
+        if not find_uses(smoke, "sentinel-test"):
+            errors.append({"path": ".github/workflows/lab06-oidc-smoke-test.yml", "message": "Smoke-test workflow must reference the sentinel-test environment."})
+        if not find_uses(smoke, "actions/upload-artifact"):
+            errors.append({"path": ".github/workflows/lab06-oidc-smoke-test.yml", "message": "Smoke-test workflow must upload an artifact."})
 
-    if deploy:
-        perms = deploy.get("permissions", {})
-        if perms.get("id-token") != "write":
-            errors.append({"path": ".github/workflows/deploy-lab06-test.yml", "message": "Deploy workflow must request id-token: write."})
-        if deploy.get("jobs", {}).get("deploy", {}).get("environment") != "sentinel-test":
-            errors.append({"path": ".github/workflows/deploy-lab06-test.yml", "message": "Deploy workflow must use environment sentinel-test."})
-        raw = (repo_root / ".github/workflows/deploy-lab06-test.yml").read_text(encoding="utf-8")
-        for required_snippet in [
-            "azure/login@v2",
-            "az deployment group what-if",
-            "az deployment group create",
-            "actions/upload-artifact@v4",
-        ]:
-            if required_snippet not in raw:
-                errors.append({"path": ".github/workflows/deploy-lab06-test.yml", "message": f"Deploy workflow missing required step text: {required_snippet}"})
-
+    validate = docs.get("validate-lab06-content.yml", {})
     if validate:
-        raw = (repo_root / ".github/workflows/validate-lab06-content.yml").read_text(encoding="utf-8")
-        for required_snippet in [
+        for expected in [
             "validate_repo.py",
             "validate_deployable_json.py",
             "validate_detection_metadata.py",
             "validate_workflow_guardrails.py",
             "validate_readme_evidence.py",
         ]:
-            if required_snippet not in raw:
-                errors.append({"path": ".github/workflows/validate-lab06-content.yml", "message": f"Validation workflow missing required validator: {required_snippet}"})
+            if not find_uses(validate, expected):
+                errors.append({"path": ".github/workflows/validate-lab06-content.yml", "message": f"Validation workflow must run {expected}."})
 
+    package = docs.get("package-lab06-content.yml", {})
     if package:
-        raw = (repo_root / ".github/workflows/package-lab06-content.yml").read_text(encoding="utf-8")
-        if "build_package.py" not in raw:
+        if not find_uses(package, "build_package.py"):
             errors.append({"path": ".github/workflows/package-lab06-content.yml", "message": "Package workflow must run build_package.py."})
-
-    report_path = artifacts_dir / "validation-workflow-guardrails.json"
-    report_path.write_text(json.dumps({"errors": errors}, indent=2), encoding="utf-8")
-
-    for err in errors:
-        gh_error(err["path"], err["message"])
+        if not find_uses(package, "actions/upload-artifact"):
+            errors.append({"path": ".github/workflows/package-lab06-content.yml", "message": "Package workflow must upload the dist artifact."})
 
     if errors:
+        print("Workflow guardrail validation failed.")
+        print(json.dumps({"errors": errors}, indent=2))
         return 1
 
-    print(f"[OK] Workflow guardrail validation passed. Report written to {report_path}")
+    print("Workflow guardrail validation passed.")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

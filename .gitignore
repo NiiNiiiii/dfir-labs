@@ -37,3 +37,9 @@ Thumbs.db
 **/*finding*.json
 **/*email*.eml
 **/*email*.msg
+
+# Lab 06 local-only values
+labs/lab-06-entra-id-detection-engineering-gated-content-pipeline/notes/lab06-values.env
+
+# Lab06 generated package output
+labs/lab-06-entra-id-detection-engineering-gated-content-pipeline/dist/
