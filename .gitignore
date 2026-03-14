@@ -43,3 +43,9 @@ labs/lab-06-entra-id-detection-engineering-gated-content-pipeline/notes/lab06-va
 
 # Lab06 generated package output
 labs/lab-06-entra-id-detection-engineering-gated-content-pipeline/dist/
+
+# Lab06 local workflow runtime artifacts
+labs/lab-06-entra-id-detection-engineering-gated-content-pipeline/artifacts/
+
+# Lab06 local workflow runtime artifacts
+labs/lab-06-entra-id-detection-engineering-gated-content-pipeline/artifacts/
