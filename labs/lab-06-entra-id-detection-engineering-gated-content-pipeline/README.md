@@ -1,6 +1,6 @@
-# Lab 06 — Microsoft Entra ID Detection Engineering + Gated Sentinel Content-as-Code Pipeline
+# Microsoft Entra ID Detection Engineering + Gated Sentinel Content-as-Code Pipeline
 
-![Lab 06 workbook hero](screenshots/13_workbook_identity_dashboard.png)
+[![Lab 06 workbook hero](screenshots/13_workbook_identity_dashboard.png)](screenshots/13_workbook_identity_dashboard.png)
 
 ## What this lab proves
 
@@ -78,26 +78,26 @@ I also proved the GitHub-to-Azure trust path and the gated deployment flow used 
 That claim stays narrow on purpose. In this version, the repo stores the analytics and automation as exported artifacts, while the deploy proof centers on the deployable workbook wrapper and the gating path around it.
 
 **Artifacts**
-- `pipeline/manifests/content-manifest.json`
-- `pipeline/deploy/main.bicep`
-- `pipeline/deploy/workbook.serialized.json`
-- `pipeline/parameters/test.parameters.json`
-- `notes/oidc-setup.md`
+- [pipeline/manifests/content-manifest.json](pipeline/manifests/content-manifest.json)
+- [pipeline/deploy/main.bicep](pipeline/deploy/main.bicep)
+- [pipeline/deploy/workbook.serialized.json](pipeline/deploy/workbook.serialized.json)
+- [pipeline/parameters/test.parameters.json](pipeline/parameters/test.parameters.json)
+- [notes/oidc-setup.md](notes/oidc-setup.md)
 
 **Proof**
-- `screenshots/14_azure_portal_federated_credential.png`
-- `screenshots/15_github_environment.png`
-- `screenshots/16_environment_approval_gate.png`
-- `screenshots/17_oidc_rbac_assignment.png`
-- `screenshots/18_oidc_smoke_test_login_success.png`
-- `screenshots/19_oidc_active_account_confirmed.png`
-- `screenshots/20_oidc_smoke_test_rg_confirmed.png`
-- `screenshots/21_pr_validation_checks.png`
-- `screenshots/22_package_dist_artifact.png`
-- `screenshots/23_deploy_approval_gate.png`
-- `screenshots/24_arm_whatif_output.png`
-- `screenshots/25_test_workspace_deploy_success.png`
-- `screenshots/26_test_workspace_content_inventory.png`
+- [Azure portal federated credential](screenshots/14_azure_portal_federated_credential.png)
+- [GitHub environment configuration](screenshots/15_github_environment.png)
+- [Environment approval gate](screenshots/16_environment_approval_gate.png)
+- [OIDC RBAC assignment](screenshots/17_oidc_rbac_assignment.png)
+- [OIDC smoke-test login success](screenshots/18_oidc_smoke_test_login_success.png)
+- [OIDC active account confirmed](screenshots/19_oidc_active_account_confirmed.png)
+- [OIDC smoke-test resource group confirmed](screenshots/20_oidc_smoke_test_rg_confirmed.png)
+- [PR validation checks](screenshots/21_pr_validation_checks.png)
+- [Package dist artifact](screenshots/22_package_dist_artifact.png)
+- [Deploy approval gate](screenshots/23_deploy_approval_gate.png)
+- [ARM what-if output](screenshots/24_arm_whatif_output.png)
+- [Test workspace deploy success](screenshots/25_test_workspace_deploy_success.png)
+- [Test workspace content inventory](screenshots/26_test_workspace_content_inventory.png)
 
 ## Key findings
 
@@ -106,32 +106,32 @@ That claim stays narrow on purpose. In this version, the repo stores the analyti
 The hunt surfaced one IP failing against multiple lab users inside a short window. That gave me a clean identity detection candidate with straightforward tuning logic.
 
 Related proof:
-- `screenshots/04_failed_signin_burst_hunt.png`
-- `screenshots/05_success_after_failure_burst_hunt.png`
+- [Failed sign-in burst hunt](screenshots/04_failed_signin_burst_hunt.png)
+- [Successful sign-in after failure burst hunt](screenshots/05_success_after_failure_burst_hunt.png)
 
 ### A later success from the same IP added useful investigation context
 
 I kept the success-after-failure logic as hunt material instead of making it the flagship scheduled rule. It is useful during triage, but the failed-burst analytic was the cleaner operational detection.
 
 Related proof:
-- `screenshots/05_success_after_failure_burst_hunt.png`
+- [Successful sign-in after failure burst hunt](screenshots/05_success_after_failure_burst_hunt.png)
 
 ### Directory role changes produced a high-value audit signal
 
 The role-assignment scenario generated clear `AuditLogs` events tied to privilege changes. That made it a strong identity detection with obvious control-plane relevance.
 
 Related proof:
-- `screenshots/06_role_assignment_hunt.png`
-- `screenshots/09_rule_role_assignment_change.png`
-- `screenshots/11_identity_incident_triggered.png`
+- [Role assignment hunt](screenshots/06_role_assignment_hunt.png)
+- [Directory role assignment analytic](screenshots/09_rule_role_assignment_change.png)
+- [Identity incident triggered](screenshots/11_identity_incident_triggered.png)
 
 ### Service principal credential changes added cloud identity depth
 
 The service principal scenario produced the paired audit events I expected for credential changes. That gave the lab a stronger cloud identity angle than a sign-in-only build.
 
 Related proof:
-- `screenshots/07_sp_credential_addition_hunt.png`
-- `screenshots/10_rule_sp_credential_addition.png`
+- [Service principal credential addition hunt](screenshots/07_sp_credential_addition_hunt.png)
+- [Service principal credential addition analytic](screenshots/10_rule_sp_credential_addition.png)
 
 ## Detections shipped
 
@@ -144,12 +144,12 @@ Detect repeated failed Microsoft Entra interactive sign-ins from a single IP acr
 It is a strong identity detection for password-spraying or brute-force style activity, and it is easy to explain during triage.
 
 **Artifacts**
-- `kql/analytics/failed_signin_burst_by_ip.kql`
-- `detections/docs/01_failed_signin_burst_by_ip.md`
-- `detections/exports/analytics/rule_failed_signin_burst.json`
+- [kql/analytics/failed_signin_burst_by_ip.kql](kql/analytics/failed_signin_burst_by_ip.kql)
+- [detections/docs/01_failed_signin_burst_by_ip.md](detections/docs/01_failed_signin_burst_by_ip.md)
+- [detections/exports/analytics/rule_failed_signin_burst.json](detections/exports/analytics/rule_failed_signin_burst.json)
 
 **Proof**
-- `screenshots/08_rule_failed_signin_burst.png`
+- [Failed sign-in burst analytic](screenshots/08_rule_failed_signin_burst.png)
 
 ### LAB06 - Directory role assignment change
 
@@ -160,12 +160,12 @@ Detect Microsoft Entra directory role assignment or role membership changes that
 It is a clean `AuditLogs` signal with obvious security impact and very little ambiguity about why it matters.
 
 **Artifacts**
-- `kql/analytics/directory_role_assignment_change.kql`
-- `detections/docs/02_directory_role_assignment_change.md`
-- `detections/exports/analytics/rule_role_assignment_change.json`
+- [kql/analytics/directory_role_assignment_change.kql](kql/analytics/directory_role_assignment_change.kql)
+- [detections/docs/02_directory_role_assignment_change.md](detections/docs/02_directory_role_assignment_change.md)
+- [detections/exports/analytics/rule_role_assignment_change.json](detections/exports/analytics/rule_role_assignment_change.json)
 
 **Proof**
-- `screenshots/09_rule_role_assignment_change.png`
+- [Directory role assignment analytic](screenshots/09_rule_role_assignment_change.png)
 
 ### LAB06 - Service principal credential addition
 
@@ -176,12 +176,12 @@ Detect the addition of a new password credential to a Microsoft Entra service pr
 It adds cloud identity depth and shows awareness of persistence through app and service principal changes.
 
 **Artifacts**
-- `kql/analytics/service_principal_credential_addition.kql`
-- `detections/docs/03_service_principal_credential_addition.md`
-- `detections/exports/analytics/rule_sp_credential_addition.json`
+- [kql/analytics/service_principal_credential_addition.kql](kql/analytics/service_principal_credential_addition.kql)
+- [detections/docs/03_service_principal_credential_addition.md](detections/docs/03_service_principal_credential_addition.md)
+- [detections/exports/analytics/rule_sp_credential_addition.json](detections/exports/analytics/rule_sp_credential_addition.json)
 
 **Proof**
-- `screenshots/10_rule_sp_credential_addition.png`
+- [Service principal credential addition analytic](screenshots/10_rule_sp_credential_addition.png)
 
 ## Automation shipped
 
@@ -190,10 +190,10 @@ I kept the response layer intentionally light.
 The automation rule triggers when a Lab 06 incident is created and applies a standard label so identity incidents are easier to triage consistently.
 
 **Artifacts**
-- `automation/exports/identity-triage-automation.export.json`
+- [automation/exports/identity-triage-automation.export.json](automation/exports/identity-triage-automation.export.json)
 
 **Proof**
-- `screenshots/12_automation_rule_identity_triage.png`
+- [Identity triage automation rule](screenshots/12_automation_rule_identity_triage.png)
 
 ## Workbook shipped
 
@@ -207,14 +207,14 @@ It includes:
 - service principal credential events
 
 **Artifacts**
-- `kql/workbook/01_ingestion_status.kql`
-- `kql/workbook/02_failed_signin_candidates.kql`
-- `kql/workbook/03_role_change_timeline.kql`
-- `kql/workbook/04_sp_credential_events.kql`
-- `workbooks/exports/identity_dashboard.json`
+- [kql/workbook/01_ingestion_status.kql](kql/workbook/01_ingestion_status.kql)
+- [kql/workbook/02_failed_signin_candidates.kql](kql/workbook/02_failed_signin_candidates.kql)
+- [kql/workbook/03_role_change_timeline.kql](kql/workbook/03_role_change_timeline.kql)
+- [kql/workbook/04_sp_credential_events.kql](kql/workbook/04_sp_credential_events.kql)
+- [workbooks/exports/identity_dashboard.json](workbooks/exports/identity_dashboard.json)
 
 **Proof**
-- `screenshots/13_workbook_identity_dashboard.png`
+- [Workbook identity dashboard](screenshots/13_workbook_identity_dashboard.png)
 
 ## MITRE mapping
 
@@ -227,7 +227,7 @@ Current mappings include:
 - **T1098.001** — additional cloud credentials through service principal credential changes
 
 **Artifact**
-- `mitre/mitre_mapping.md`
+- [mitre/mitre_mapping.md](mitre/mitre_mapping.md)
 
 ## IOC and observable handling
 
@@ -242,7 +242,7 @@ Tracked observables include:
 - the service principal display name used in the test scenario
 
 **Artifact**
-- `ioc/identity_observables.csv`
+- [ioc/identity_observables.csv](ioc/identity_observables.csv)
 
 ## Notes and constraints
 
@@ -277,67 +277,67 @@ At a high level, this lab can be reproduced by:
 8. proving the OIDC, validation, package, `what-if`, approval, and test-deploy path  
 
 Detailed execution notes live in:
-- `notes/licensing-and-fallback.md`
-- `notes/scenario-execution.md`
-- `notes/redactions.md`
-- `notes/oidc-setup.md`
+- [notes/licensing-and-fallback.md](notes/licensing-and-fallback.md)
+- [notes/scenario-execution.md](notes/scenario-execution.md)
+- [notes/redactions.md](notes/redactions.md)
+- [notes/oidc-setup.md](notes/oidc-setup.md)
 
 ## Artifact index
 
 ### Screenshots
-- `screenshots/01_entra_connector_enabled.png`
-- `screenshots/02_auditlogs_validation.png`
-- `screenshots/03_signinlogs_validation.png`
-- `screenshots/04_failed_signin_burst_hunt.png`
-- `screenshots/05_success_after_failure_burst_hunt.png`
-- `screenshots/06_role_assignment_hunt.png`
-- `screenshots/07_sp_credential_addition_hunt.png`
-- `screenshots/08_rule_failed_signin_burst.png`
-- `screenshots/09_rule_role_assignment_change.png`
-- `screenshots/10_rule_sp_credential_addition.png`
-- `screenshots/11_identity_incident_triggered.png`
-- `screenshots/12_automation_rule_identity_triage.png`
-- `screenshots/13_workbook_identity_dashboard.png`
-- `screenshots/14_azure_portal_federated_credential.png`
-- `screenshots/15_github_environment.png`
-- `screenshots/16_environment_approval_gate.png`
-- `screenshots/17_oidc_rbac_assignment.png`
-- `screenshots/18_oidc_smoke_test_login_success.png`
-- `screenshots/19_oidc_active_account_confirmed.png`
-- `screenshots/20_oidc_smoke_test_rg_confirmed.png`
-- `screenshots/21_pr_validation_checks.png`
-- `screenshots/22_package_dist_artifact.png`
-- `screenshots/23_deploy_approval_gate.png`
-- `screenshots/24_arm_whatif_output.png`
-- `screenshots/25_test_workspace_deploy_success.png`
-- `screenshots/26_test_workspace_content_inventory.png`
+- [screenshots/01_entra_connector_enabled.png](screenshots/01_entra_connector_enabled.png)
+- [screenshots/02_auditlogs_validation.png](screenshots/02_auditlogs_validation.png)
+- [screenshots/03_signinlogs_validation.png](screenshots/03_signinlogs_validation.png)
+- [screenshots/04_failed_signin_burst_hunt.png](screenshots/04_failed_signin_burst_hunt.png)
+- [screenshots/05_success_after_failure_burst_hunt.png](screenshots/05_success_after_failure_burst_hunt.png)
+- [screenshots/06_role_assignment_hunt.png](screenshots/06_role_assignment_hunt.png)
+- [screenshots/07_sp_credential_addition_hunt.png](screenshots/07_sp_credential_addition_hunt.png)
+- [screenshots/08_rule_failed_signin_burst.png](screenshots/08_rule_failed_signin_burst.png)
+- [screenshots/09_rule_role_assignment_change.png](screenshots/09_rule_role_assignment_change.png)
+- [screenshots/10_rule_sp_credential_addition.png](screenshots/10_rule_sp_credential_addition.png)
+- [screenshots/11_identity_incident_triggered.png](screenshots/11_identity_incident_triggered.png)
+- [screenshots/12_automation_rule_identity_triage.png](screenshots/12_automation_rule_identity_triage.png)
+- [screenshots/13_workbook_identity_dashboard.png](screenshots/13_workbook_identity_dashboard.png)
+- [screenshots/14_azure_portal_federated_credential.png](screenshots/14_azure_portal_federated_credential.png)
+- [screenshots/15_github_environment.png](screenshots/15_github_environment.png)
+- [screenshots/16_environment_approval_gate.png](screenshots/16_environment_approval_gate.png)
+- [screenshots/17_oidc_rbac_assignment.png](screenshots/17_oidc_rbac_assignment.png)
+- [screenshots/18_oidc_smoke_test_login_success.png](screenshots/18_oidc_smoke_test_login_success.png)
+- [screenshots/19_oidc_active_account_confirmed.png](screenshots/19_oidc_active_account_confirmed.png)
+- [screenshots/20_oidc_smoke_test_rg_confirmed.png](screenshots/20_oidc_smoke_test_rg_confirmed.png)
+- [screenshots/21_pr_validation_checks.png](screenshots/21_pr_validation_checks.png)
+- [screenshots/22_package_dist_artifact.png](screenshots/22_package_dist_artifact.png)
+- [screenshots/23_deploy_approval_gate.png](screenshots/23_deploy_approval_gate.png)
+- [screenshots/24_arm_whatif_output.png](screenshots/24_arm_whatif_output.png)
+- [screenshots/25_test_workspace_deploy_success.png](screenshots/25_test_workspace_deploy_success.png)
+- [screenshots/26_test_workspace_content_inventory.png](screenshots/26_test_workspace_content_inventory.png)
 
 ### KQL
-- `kql/validation/`
-- `kql/hunts/`
-- `kql/analytics/`
-- `kql/workbook/`
+- [kql/validation/](kql/validation/)
+- [kql/hunts/](kql/hunts/)
+- [kql/analytics/](kql/analytics/)
+- [kql/workbook/](kql/workbook/)
 
 ### Detection docs and exports
-- `detections/docs/`
-- `detections/exports/analytics/`
+- [detections/docs/](detections/docs/)
+- [detections/exports/analytics/](detections/exports/analytics/)
 
 ### Automation and workbook exports
-- `automation/exports/`
-- `workbooks/exports/`
+- [automation/exports/](automation/exports/)
+- [workbooks/exports/](workbooks/exports/)
 
 ### Pipeline files
-- `pipeline/manifests/content-manifest.json`
-- `pipeline/deploy/main.bicep`
-- `pipeline/deploy/workbook.serialized.json`
-- `pipeline/parameters/test.parameters.json`
+- [pipeline/manifests/content-manifest.json](pipeline/manifests/content-manifest.json)
+- [pipeline/deploy/main.bicep](pipeline/deploy/main.bicep)
+- [pipeline/deploy/workbook.serialized.json](pipeline/deploy/workbook.serialized.json)
+- [pipeline/parameters/test.parameters.json](pipeline/parameters/test.parameters.json)
 
 ### Notes
-- `notes/licensing-and-fallback.md`
-- `notes/scenario-execution.md`
-- `notes/redactions.md`
-- `notes/oidc-setup.md`
+- [notes/licensing-and-fallback.md](notes/licensing-and-fallback.md)
+- [notes/scenario-execution.md](notes/scenario-execution.md)
+- [notes/redactions.md](notes/redactions.md)
+- [notes/oidc-setup.md](notes/oidc-setup.md)
 
 ### MITRE and IOC support files
-- `mitre/mitre_mapping.md`
-- `ioc/identity_observables.csv`
+- [mitre/mitre_mapping.md](mitre/mitre_mapping.md)
+- [ioc/identity_observables.csv](ioc/identity_observables.csv)
