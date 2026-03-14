@@ -1,4 +1,4 @@
-# LAB06 - Failed sign-in burst by IP
+# Failed sign-in burst by IP
 
 ## Purpose
 
