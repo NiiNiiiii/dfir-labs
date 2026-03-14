@@ -1,0 +1,62 @@
+name: lab06-oidc-smoke-test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    environment: sentinel-test
+    env:
+      LAB06_DIR: labs/lab-06-entra-id-detection-engineering-gated-content-pipeline
+      AZURE_RG_TEST: ${{ vars.AZURE_RG_TEST }}
+      AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+      SENTINEL_WORKSPACE_NAME_TEST: ${{ vars.SENTINEL_WORKSPACE_NAME_TEST }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Show active account
+        shell: bash
+        run: |
+          az account show -o jsonc
+
+      - name: Show test resource group
+        shell: bash
+        run: |
+          az group show --name "${AZURE_RG_TEST}" -o jsonc
+
+      - name: Show test workspace
+        shell: bash
+        run: |
+          az monitor log-analytics workspace show \
+            --resource-group "${AZURE_RG_TEST}" \
+            --workspace-name "${SENTINEL_WORKSPACE_NAME_TEST}" \
+            -o jsonc
+
+      - name: Save smoke-test inventory
+        shell: bash
+        run: |
+          mkdir -p "${LAB06_DIR}/artifacts"
+          az resource list \
+            --resource-group "${AZURE_RG_TEST}" \
+            --query "[].{name:name,type:type,location:location}" \
+            -o json > "${LAB06_DIR}/artifacts/oidc-smoke-test-resource-list.json"
+
+      - name: Upload smoke-test artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab06-oidc-smoke-test
+          path: labs/lab-06-entra-id-detection-engineering-gated-content-pipeline/artifacts/oidc-smoke-test-resource-list.json

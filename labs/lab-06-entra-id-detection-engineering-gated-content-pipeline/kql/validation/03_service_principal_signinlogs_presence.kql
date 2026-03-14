@@ -1,0 +1,2 @@
+AADServicePrincipalSignInLogs
+| summarize FirstSeen=min(TimeGenerated), LastSeen=max(TimeGenerated), RowCount=count()
