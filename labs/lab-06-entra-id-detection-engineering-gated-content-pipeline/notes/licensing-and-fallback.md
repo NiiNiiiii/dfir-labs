@@ -1,4 +1,4 @@
-# Lab 06 licensing and fallback notes
+# licensing and fallback notes
 
 ## Purpose
 
