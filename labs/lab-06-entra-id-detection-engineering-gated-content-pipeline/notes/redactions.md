@@ -1,4 +1,4 @@
-# Lab 06 redaction log
+# Redaction log
 
 ## Purpose
 
@@ -6,12 +6,12 @@ This file records what I reviewed before publishing Lab 06 and what I chose to r
 
 ## Files reviewed
 
-- `detections/exports/analytics/rule_failed_signin_burst.json`
-- `detections/exports/analytics/rule_role_assignment_change.json`
-- `detections/exports/analytics/rule_sp_credential_addition.json`
-- `automation/exports/identity-triage-automation.export.json`
-- `workbooks/exports/identity_dashboard.json`
-- `pipeline/deploy/workbook.serialized.json`
+- [Failed sign-in burst analytic export](../detections/exports/analytics/rule_failed_signin_burst.json)
+- [Directory role assignment change analytic export](../detections/exports/analytics/rule_role_assignment_change.json)
+- [Service principal credential addition analytic export](../detections/exports/analytics/rule_sp_credential_addition.json)
+- [Identity triage automation export](../automation/exports/identity-triage-automation.export.json)
+- [Identity dashboard workbook export](../workbooks/exports/identity_dashboard.json)
+- [Deployable workbook wrapper](../pipeline/deploy/workbook.serialized.json)
 - supporting markdown notes used to explain the lab
 
 ## What I redacted in the public write-up
@@ -43,8 +43,8 @@ This file records what I reviewed before publishing Lab 06 and what I chose to r
 
 - I reviewed the exported analytics and automation content for secrets, credentials, and user-specific ownership fields.
 - I reviewed the workbook export more closely because workbook JSON can retain workspace-specific references as part of the export format.
-- The narrower deployable workbook wrapper used for the gated deployment proof is `pipeline/deploy/workbook.serialized.json`.
-- The fuller workbook evidence export under `workbooks/exports/identity_dashboard.json` still carries workspace-specific resource references. That is not a secret by itself, but it is extra environment detail and should be a deliberate publish decision.
+- The narrower deployable workbook wrapper used for the gated deployment proof is [pipeline/deploy/workbook.serialized.json](../pipeline/deploy/workbook.serialized.json).
+- The fuller workbook evidence export under [workbooks/exports/identity_dashboard.json](../workbooks/exports/identity_dashboard.json) still carries workspace-specific resource references. That is not a secret by itself, but it is extra environment detail and should be a deliberate publish decision.
 
 ## Result
 
