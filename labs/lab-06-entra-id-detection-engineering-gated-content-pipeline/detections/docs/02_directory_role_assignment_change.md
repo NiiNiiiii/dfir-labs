@@ -46,26 +46,10 @@ The rule looks back one hour for the exact role-assignment operation names obser
 ## Validation
 
 1. Assign `Security Reader` to `lab06-role-target`.
-
 2. Run the discovery query and copy the exact `OperationName` values.
-
-   <a href="./05_role_assignment_hunt.png">
-     <img src="./05_role_assignment_hunt.png" alt="Role assignment hunt query results" width="900">
-   </a>
-
 3. Create the scheduled analytic with those values.
-
-   <a href="./08_rule_role_assignment_change.png">
-     <img src="./08_rule_role_assignment_change.png" alt="Scheduled analytic for directory role assignment change" width="900">
-   </a>
-
 4. Remove and re-add the role assignment if needed.
-
 5. Confirm the rule creates an incident.
-
-   <a href="./10_identity_incident_triggered.png">
-     <img src="./10_identity_incident_triggered.png" alt="Identity incident triggered from directory role assignment change" width="900">
-   </a>
 
 ## Limitations
 
@@ -73,6 +57,6 @@ The rule looks back one hour for the exact role-assignment operation names obser
 
 ## Evidence
 
-- <a href="./05_role_assignment_hunt.png">05_role_assignment_hunt.png</a>
-- <a href="./08_rule_role_assignment_change.png">08_rule_role_assignment_change.png</a>
-- <a href="./10_identity_incident_triggered.png">10_identity_incident_triggered.png</a>
+- [Role assignment hunt result](../../screenshots/06_role_assignment_hunt.png)
+- [Scheduled analytic configuration](../../screenshots/09_rule_role_assignment_change.png)
+- [Incident triggered from the rule](../../screenshots/11_identity_incident_triggered.png)
