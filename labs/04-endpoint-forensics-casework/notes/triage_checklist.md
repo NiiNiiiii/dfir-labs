@@ -1,4 +1,4 @@
-# Triage Checklist — Lab 04 (Endpoint Forensics Casework)
+# Triage Checklist — (Endpoint Forensics Casework)
 
 ## Scope and goals
 - Host: win-ws1
