@@ -1,4 +1,4 @@
-# Executive summary — Lab 05 (Memory forensics + Sentinel SecOps loop)
+# Executive summary — (Memory forensics + Sentinel SecOps loop)
 
 ## Summary
 I investigated repeated PowerShell executions using `-EncodedCommand` on an Azure VM (`win-ws1`) and converted that investigation into an operational Sentinel workflow:
