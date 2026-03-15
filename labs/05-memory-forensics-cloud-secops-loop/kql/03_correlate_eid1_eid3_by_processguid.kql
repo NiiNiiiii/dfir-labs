@@ -1,4 +1,4 @@
-// Lab 05 — Hunt: correlate PowerShell ProcessCreate (EID 1) to NetworkConnect (EID 3) via ProcessGuid
+// Hunt: correlate PowerShell ProcessCreate (EID 1) to NetworkConnect (EID 3) via ProcessGuid
 // Purpose: Join the exact PowerShell process to its outbound network connection(s).
 // Why it matters: Converts "PowerShell ran" into "this specific process made this specific outbound connection".
 // Notes:
