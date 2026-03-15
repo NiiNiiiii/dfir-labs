@@ -1,4 +1,4 @@
-# LAB 02 — Multi-host Incident Reconstruction (Microsoft Sentinel + Sysmon)
+# Multi-host Incident Reconstruction (Microsoft Sentinel + Sysmon)
 
 **Quick links:** [Timeline KQL](kql/lab02_timeline.kql) · [Analytic rule export](detections/LAB02_encoded_powershell_rule.arm.json) · [Automation export](automation/AB02_soar_lite_automation_rule.arm.json) · [Workbook template](workbooks/LAB02_timeline_dashboard.galleryTemplate.json) · [Executive summary](executive-summary.md)
 
