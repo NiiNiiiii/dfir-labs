@@ -1,4 +1,4 @@
-﻿# KQL — Lab 01
+﻿# KQL
 
 - 01_heartbeat_win-ws1.kql: proves AMA connectivity 
 - 02_sysmon_recent.kql: proves Sysmon telemetry ingestion
