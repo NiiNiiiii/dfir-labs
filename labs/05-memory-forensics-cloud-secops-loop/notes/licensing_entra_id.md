@@ -1,4 +1,4 @@
-# Licensing note — Entra ID (Lab 05)
+# Licensing note — Entra ID 
 
 This lab focuses on **endpoint telemetry (Sysmon via AMA/DCR) + Sentinel detections/automation/workbooks**.
 
