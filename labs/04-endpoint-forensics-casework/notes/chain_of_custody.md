@@ -1,4 +1,4 @@
-﻿# Chain of Custody — Lab 04
+﻿# Chain of Custody
 
 - Case ID: 2026-02-24_Lab04_WinWS1_EndpointForensics
 - Evidence host: win-ws1
