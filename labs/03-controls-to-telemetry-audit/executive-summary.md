@@ -1,4 +1,4 @@
-# Executive Summary — Lab 03 Controls-to-Telemetry Audit
+# Executive Summary — Controls-to-Telemetry Audit
 
 ## Objective
 Assess whether critical endpoint controls are **observable** via telemetry in Microsoft Sentinel and deliver a repeatable **validation harness** (known-good events + pass/fail KQL).
