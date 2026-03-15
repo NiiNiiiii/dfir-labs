@@ -1,4 +1,4 @@
-# Redactions — detections (LAB04)
+# Redactions — detections
 
 ## What was exported
 - `detections/LAB04_appdata_powershell_persistence_rule.arm.json` is a publish-safe ARM-style template representing the scheduled analytic rule.
