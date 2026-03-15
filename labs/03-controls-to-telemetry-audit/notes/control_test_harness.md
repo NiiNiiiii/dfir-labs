@@ -10,9 +10,13 @@ Run these on win-ws1 (and optionally repeat on win-ws2).
 
 ## Actions
 A) Failed logon (4625)
+
 B) Create local user (4720)
+
 C) Add user to local Administrators (4732)
+
 D) Create scheduled task (4698)
+
 E) Modify audit policy (4719)
 
 Optional (use with caution):
