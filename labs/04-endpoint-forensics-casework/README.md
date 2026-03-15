@@ -1,4 +1,4 @@
-# Lab 04 — Endpoint Forensics Casework (MFT + EVTX)
+# Endpoint Forensics Casework (MFT + EVTX)
 
 **Quick links:** [What this proves](#what-this-proves) · [Scenario & scope](#scenario-and-scope) · [Data sources](#data-sources-used) · [Workflow](#workflow) · [Key findings](#key-findings) · [Detections](#detections-shipped) · [Automation](#automation-shipped) · [Workbooks](#workbooks-shipped) · [MITRE](#mitre-mapping) · [IOCs](#iocs) · [Recommendations](#recommendations) · [Repro steps](#repro-steps) · [Artifacts index](#artifacts-index)
 
