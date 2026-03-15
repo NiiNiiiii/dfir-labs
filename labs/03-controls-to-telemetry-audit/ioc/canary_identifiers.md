@@ -1,4 +1,4 @@
-# Canary identifiers (Lab 03)
+# Canary identifiers
 
 These are benign identifiers intentionally created to validate telemetry coverage.
 
