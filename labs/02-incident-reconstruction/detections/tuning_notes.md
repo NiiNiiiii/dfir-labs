@@ -1,4 +1,4 @@
-# Detection tuning notes — LAB02 - Encoded PowerShell Execution
+# Detection tuning notes — Encoded PowerShell Execution
 
 ## Current logic
 - Data source: `Event` table, Sysmon Operational, EID 1
