@@ -1,4 +1,4 @@
-# LAB 03 — Controls-to-Telemetry Audit (Microsoft Sentinel)
+# Controls-to-Telemetry Audit (Microsoft Sentinel)
 
 **Quick links:**
 - **Workbook (dashboard):** [`workbooks/LAB03_telemetry_coverage_dashboard.galleryTemplate.json`](workbooks/LAB03_telemetry_coverage_dashboard.galleryTemplate.json)
