@@ -1,4 +1,4 @@
-# Licensing note — Defender for Cloud (Lab 05)
+# Licensing note — Defender for Cloud
 
 Defender for Cloud can add posture findings and cloud security signals, but the lab's primary objective was the **Sentinel SecOps loop** built from Sysmon telemetry.
 
