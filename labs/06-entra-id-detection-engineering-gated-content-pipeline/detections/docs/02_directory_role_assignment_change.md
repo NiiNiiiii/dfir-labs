@@ -1,4 +1,4 @@
-# LAB06 - Directory role assignment change
+# Directory role assignment change
 
 ## Purpose
 
@@ -57,6 +57,6 @@ The rule looks back one hour for the exact role-assignment operation names obser
 
 ## Evidence
 
-- `screenshots/06_role_assignment_hunt.png`
-- `screenshots/09_rule_role_assignment_change.png`
-- `screenshots/11_identity_incident_triggered.png`
+- [Role assignment hunt result](../../screenshots/06_role_assignment_hunt.png)
+- [Scheduled analytic configuration](../../screenshots/09_rule_role_assignment_change.png)
+- [Incident triggered from the rule](../../screenshots/11_identity_incident_triggered.png)
