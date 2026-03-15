@@ -1,4 +1,4 @@
-﻿# Lab 01 — Telemetry + SIEM validation
+﻿# Telemetry + SIEM validation
 
 ## Environment
 - VM: win-ws1
