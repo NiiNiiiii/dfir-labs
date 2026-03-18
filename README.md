@@ -48,7 +48,7 @@ Hands-on DFIR, detection engineering, identity detection, and cloud SecOps labs 
 | [04 — Endpoint Forensics Casework](labs/04-endpoint-forensics-casework/) | Triage MFT and EVTX artifacts, build a timeline, package IOCs, and uplift findings into Sentinel content | ✅ Done |
 | [05 — Windows Memory Forensics + Cloud SecOps Loop](labs/05-memory-forensics-cloud-secops-loop/) | Document Azure memory-acquisition constraints, pivot cleanly to process-memory proof, and complete the Sentinel hunt-to-response loop | ✅ Done |
 | [06 — Entra ID Detection Engineering + Gated Content Pipeline](labs/06-entra-id-detection-engineering-gated-content-pipeline/) | Validate Entra telemetry, build identity detections and triage content, and prove a gated GitHub OIDC validation/package/test-deploy path into a separate Sentinel workspace | ✅ Done |
-| [07 — AWS GuardDuty Detection + Response](labs/07-aws-guarduty-detection-response/) | Build AWS-native alerting, finding retention, Athena triage, and Security Hub-driven response workflow | ✅ Done |
+| [07 — AWS GuardDuty Detection + Response](labs/07-aws-guardduty-detection-response/) | Build AWS-native alerting, finding retention, Athena triage, and Security Hub-driven response workflow | ✅ Done |
 | 08 — AWS IAM + S3 Misconfiguration Response | Planned posture and remediation lab focused on unintended access, attribution, and control validation | 📋 Planned |
 
 Each completed lab includes a `README.md`, proof screenshots, and the artifacts that matter for that case: KQL, detection exports, automation exports, workbook content, IOC packs, Terraform, Athena SQL, Lambda code, notes, or manifests where applicable.
