@@ -5,7 +5,7 @@ DFIR and detection engineering portfolio with seven completed labs across Micros
 ## Portfolio snapshot
 - 7 completed labs
 - 2 planned labs
-- - Publish-safe: screenshots, queries, exports, templates, manifests, and sanitized IOC material only; no raw evidence
+- Publish-safe: screenshots, queries, exports, templates, manifests, and sanitized IOC material only; no raw evidence
 - Reusable outputs: KQL, analytics exports, automation, workbooks, timelines, IOC packs, Terraform, Athena SQL, Lambda code, and evidence manifests
 
 ## What this portfolio shows
@@ -14,7 +14,7 @@ DFIR and detection engineering portfolio with seven completed labs across Micros
 
 ## Recommended starting points
 - [06 — Entra ID Detection Engineering + Gated Content Pipeline](labs/06-entra-id-detection-engineering-gated-content-pipeline/)  
-  Validate Entra telemetry, build identity detections and triage content, and validate Entra telemetry, build identity detections and triage content, then validate, package, and deploy Sentinel content to a separate test workspace through a gated GitHub OIDC pipeline.
+  Validate Entra telemetry, build identity detections and triage content, then validate, package, and deploy Sentinel content to a separate test workspace through a gated GitHub OIDC pipeline.
 
 - [07 — AWS GuardDuty Detection + Response](labs/07-aws-guardduty-detection-response/)  
   Build AWS-native alerting, finding retention, Athena triage, and a Security Hub-driven response workflow.
