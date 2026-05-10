@@ -26,7 +26,6 @@ The strongest evidence chain in the uploaded artifacts centers on the GuardDuty 
 - **GuardDuty finding type:** `UnauthorizedAccess:EC2/TorClient`
 - **MITRE ATT&CK mapping used in this package:** `T1090.003 – Multi-hop Proxy`
 
-This finding is the best recruiter-facing anchor because it appears consistently across the proof set: GuardDuty findings, the SNS alert email, the Security Hub ASFF view, and the Security Hub `NOTIFIED` response state.
 
 ## Constraint, decision, and evidence
 Security Hub was enabled after the first sample-finding batch. That timing mattered.
